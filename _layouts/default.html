@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="{{ site.locale | slice: 0,2 }}" class="no-js"{% if site.site_theme == "dark" %} data-theme="dark"{% endif %}>
+  <head>
+    {% include head.html %}
+    {% include head/custom.html %}
+  </head>
+
+  <body>
+
+    {% include browser-upgrade.html %}
+    {% include masthead.html %}
+
+    {{ content }}
+
+
+    {% include scripts.html %}
+
+    <script>
+  // CONFIG FIREBASE (uguale alla login.html)
+  const firebaseConfig = {
+    apiKey: "AIzaSyCu9YBjutCK0UR3EoliYwiNrrKaY8cyt8U",
+    authDomain: "ufficiogabrieljones.firebaseapp.com",
+    projectId: "ufficiogabrieljones",
+    storageBucket: "ufficiogabrieljones.firebasestorage.app",
+    messagingSenderId: "754177287030",
+    appId: "1:754177287030:web:e4f70d2d3d9c54c1d91057",
+    measurementId: "G-HBSRVKC0JQ"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+
+  // Controlla autenticazione
+  firebase.auth().onAuthStateChanged(user => {
+    if (user) {
+      const email = user.email;
+      document.getElementById('welcomeText').textContent = `Benvenuto, ${email}`;
+    } else {
+      // Se non loggato, reindirizza al login
+      window.location.href = "login.html";
+    }
+  });
+
+  function logout() {
+    firebase.auth().signOut().then(() => {
+      window.location.href = "login.html";
+    }).catch((error) => {
+      alert("Errore nel logout.");
+      console.error(error);
+    });
+  }
+</script>
+  </body>
+</html>
