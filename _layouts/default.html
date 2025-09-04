@@ -31,14 +31,27 @@
 
       firebase.initializeApp(firebaseConfig);
 
-      // Controlla autenticazione
       firebase.auth().onAuthStateChanged(user => {
+        const currentPath = window.location.pathname.split("/").pop();
+
         if (user) {
           const email = user.email;
-          document.getElementById('welcomeText').textContent = `Benvenuto, ${email}`;
+          if (currentPath === "login.html") {
+            // Se utente loggato ma su login.html, reindirizza alla home
+            window.location.href = "index.html";
+          } else {
+            // Mostra il messaggio di benvenuto se l'elemento esiste
+            const welcomeEl = document.getElementById('welcomeText');
+            if (welcomeEl) {
+              welcomeEl.textContent = `Benvenuto, ${email}`;
+            }
+          }
         } else {
-          // Se non loggato, reindirizza al login
-          window.location.href = "/amministrazione2/login.html";
+          if (currentPath !== "login.html") {
+            // Se non loggato e non su login.html, reindirizza a login
+            window.location.href = "login.html";
+          }
+          // Se già su login.html, non fare nulla per evitare loop
         }
       });
 
