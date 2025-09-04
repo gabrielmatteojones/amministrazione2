@@ -12,42 +12,46 @@
 
     {{ content }}
 
-
     {% include scripts.html %}
 
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
     <script>
-  // CONFIG FIREBASE (uguale alla login.html)
-  const firebaseConfig = {
-    apiKey: "AIzaSyCu9YBjutCK0UR3EoliYwiNrrKaY8cyt8U",
-    authDomain: "ufficiogabrieljones.firebaseapp.com",
-    projectId: "ufficiogabrieljones",
-    storageBucket: "ufficiogabrieljones.firebasestorage.app",
-    messagingSenderId: "754177287030",
-    appId: "1:754177287030:web:e4f70d2d3d9c54c1d91057",
-    measurementId: "G-HBSRVKC0JQ"
-  };
+      // CONFIG FIREBASE
+      const firebaseConfig = {
+        apiKey: "AIzaSyCu9YBjutCK0UR3EoliYwiNrrKaY8cyt8U",
+        authDomain: "ufficiogabrieljones.firebaseapp.com",
+        projectId: "ufficiogabrieljones",
+        storageBucket: "ufficiogabrieljones.firebasestorage.app",
+        messagingSenderId: "754177287030",
+        appId: "1:754177287030:web:e4f70d2d3d9c54c1d91057",
+        measurementId: "G-HBSRVKC0JQ"
+      };
 
-  firebase.initializeApp(firebaseConfig);
+      firebase.initializeApp(firebaseConfig);
 
-  // Controlla autenticazione
-  firebase.auth().onAuthStateChanged(user => {
-    if (user) {
-      const email = user.email;
-      document.getElementById('welcomeText').textContent = `Benvenuto, ${email}`;
-    } else {
-      // Se non loggato, reindirizza al login
-      window.location.href = "login.html";
-    }
-  });
+      // Controlla autenticazione
+      firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+          const email = user.email;
+          document.getElementById('welcomeText').textContent = `Benvenuto, ${email}`;
+        } else {
+          // Se non loggato, reindirizza al login
+          window.location.href = "login.html";
+        }
+      });
 
-  function logout() {
-    firebase.auth().signOut().then(() => {
-      window.location.href = "login.html";
-    }).catch((error) => {
-      alert("Errore nel logout.");
-      console.error(error);
-    });
-  }
-</script>
+      function logout() {
+        firebase.auth().signOut()
+          .then(() => {
+            window.location.href = "login.html";
+          })
+          .catch(error => {
+            alert("Errore nel logout.");
+            console.error(error);
+          });
+      }
+    </script>
   </body>
 </html>
